@@ -1,0 +1,3 @@
+# Studieretningscase
+
+A School project
