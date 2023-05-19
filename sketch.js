@@ -77,7 +77,7 @@ function calculateCoordinates(isAstronaut) {
     time += stepLength;
     astronautDistance += derivative * stepLength;
 
-    coordinateSets[i] = [time, astronautDistance]
+    coordinateSets[i] = [time, astronautDistance, derivative]
   }
 
   return coordinateSets
