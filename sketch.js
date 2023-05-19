@@ -9,7 +9,7 @@ let insideCoordinateSets
 
 const speedOfLight = 299792
 const waitFrames = 30 //How many frames before animation restarts
-const drawVelocity = true
+const drawVelocity = false
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
