@@ -9,6 +9,7 @@ let insideCoordinateSets
 
 const speedOfLight = 299792
 const waitFrames = 30 //How many frames before animation restarts
+const drawVelocity = true
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -16,6 +17,7 @@ function setup() {
   insideCoordinateSets = calculateCoordinates(true)
   outsideCoordinateSets = calculateCoordinates(false)
 
+  console.log(outsideCoordinateSets[outsideCoordinateSets.length - 1][2])
   frameRate(60) //Animation speed
   background(220);
   textSize(40)
@@ -23,36 +25,68 @@ function setup() {
 
 function draw() {
   if (lineIndex > outsideCoordinateSets.length + waitFrames) { //Restart animation
-    lineIndex = 0
-    background(220);
+    //lineIndex = 0
+    //background(220);
   } else if (lineIndex >= 0 && lineIndex < outsideCoordinateSets.length - 1) {
-    //From calculation coordinates to screen
-    const heightUnit = height / astronautStartDistance 
-    const widthUnit = width / (numberOfSteps * stepLength)
 
-    //For the outside perspective
-    //Get screen coordinates
-    let x11 = outsideCoordinateSets[lineIndex][0] * widthUnit
-    let y11 = abs(outsideCoordinateSets[lineIndex][1] * heightUnit - height) //Adjust y-axis
-    let x12 = outsideCoordinateSets[lineIndex + 1][0] * widthUnit
-    let y12 = abs(outsideCoordinateSets[lineIndex + 1][1] * heightUnit - height) //Adjust y-axis
-
-    //Draw the line
-    stroke("red")
-    fill("red")
-    text("Outsider", width / 2, height / 2 - height / 6)
-    line(x11, y11, x12, y12)
-
-    //Repeat for astronauts perspective
-    let x21 = insideCoordinateSets[lineIndex][0] * widthUnit
-    let y21 = abs(insideCoordinateSets[lineIndex][1] * heightUnit - height)
-    let x22 = insideCoordinateSets[lineIndex + 1][0] * widthUnit
-    let y22 = abs(insideCoordinateSets[lineIndex + 1][1] * heightUnit - height)
-
-    stroke("green")
-    fill("green")
-    text("Astronaut", width / 2, height / 2)
-    line(x21, y21, x22, y22)
+    if (drawVelocity) {
+      //From calculation coordinates to screen
+      const heightUnit = height / outsideCoordinateSets[outsideCoordinateSets.length - 1][2]
+      const widthUnit = width / (numberOfSteps * stepLength)
+      
+      //For the outside perspective
+      //Get screen coordinates
+      let x11 = outsideCoordinateSets[lineIndex][0] * widthUnit
+      let y11 = abs(outsideCoordinateSets[lineIndex][2] * heightUnit - height) //Adjust y-axis
+      let x12 = outsideCoordinateSets[lineIndex + 1][0] * widthUnit
+      let y12 = abs(outsideCoordinateSets[lineIndex + 1][2] * heightUnit - height) //Adjust y-axis
+      
+      console.log(y11)
+      //Draw the line
+      stroke("red")
+      fill("red")
+      text("Outsider", width / 2, height / 2 - height / 6)
+      line(x11, y11, x12, y12)
+      
+      //Repeat for astronauts perspective
+      let x21 = insideCoordinateSets[lineIndex][0] * widthUnit
+      let y21 = abs(insideCoordinateSets[lineIndex][2] * heightUnit - height)
+      let x22 = insideCoordinateSets[lineIndex + 1][0] * widthUnit
+      let y22 = abs(insideCoordinateSets[lineIndex + 1][2] * heightUnit - height)
+      
+      stroke("green")
+      fill("green")
+      //text("Astronaut", width / 2, height / 2)
+      //line(x21, y21, x22, y22)
+    } else {
+      //From calculation coordinates to screen
+      const heightUnit = height / astronautStartDistance 
+      const widthUnit = width / (numberOfSteps * stepLength)
+  
+      //For the outside perspective
+      //Get screen coordinates
+      let x11 = outsideCoordinateSets[lineIndex][0] * widthUnit
+      let y11 = abs(outsideCoordinateSets[lineIndex][1] * heightUnit - height) //Adjust y-axis
+      let x12 = outsideCoordinateSets[lineIndex + 1][0] * widthUnit
+      let y12 = abs(outsideCoordinateSets[lineIndex + 1][1] * heightUnit - height) //Adjust y-axis
+  
+      //Draw the line
+      stroke("red")
+      fill("red")
+      text("Outsider", width / 2, height / 2 - height / 6)
+      line(x11, y11, x12, y12)
+  
+      //Repeat for astronauts perspective
+      let x21 = insideCoordinateSets[lineIndex][0] * widthUnit
+      let y21 = abs(insideCoordinateSets[lineIndex][1] * heightUnit - height)
+      let x22 = insideCoordinateSets[lineIndex + 1][0] * widthUnit
+      let y22 = abs(insideCoordinateSets[lineIndex + 1][1] * heightUnit - height)
+  
+      stroke("green")
+      fill("green")
+      text("Astronaut", width / 2, height / 2)
+      line(x21, y21, x22, y22)
+    }
   }
   lineIndex++; //Next frame
 }
@@ -63,7 +97,7 @@ function calculateCoordinates(isAstronaut) {
   let derivative
   const coordinateSets = []
 
-  coordinateSets[0] = [time, astronautDistance] //Starting coordinates
+  coordinateSets[0] = [time, astronautDistance, 0] //Starting coordinates
 
   //Eulers method for numerically estimating differential equations
   for (let i = 1; i < numberOfSteps; i++) {
