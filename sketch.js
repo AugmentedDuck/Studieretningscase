@@ -56,8 +56,8 @@ function draw() {
       
       stroke("green")
       fill("green")
-      //text("Astronaut", width / 2, height / 2)
-      //line(x21, y21, x22, y22)
+      text("Astronaut", width / 2, height / 2)
+      line(x21, y21, x22, y22)
     } else {
       //From calculation coordinates to screen
       const heightUnit = height / astronautStartDistance 
