@@ -25,8 +25,8 @@ function setup() {
 
 function draw() {
   if (lineIndex > outsideCoordinateSets.length + waitFrames) { //Restart animation
-    //lineIndex = 0
-    //background(220);
+    lineIndex = 0
+    background(220);
   } else if (lineIndex >= 0 && lineIndex < outsideCoordinateSets.length - 1) {
 
     if (drawVelocity) {
